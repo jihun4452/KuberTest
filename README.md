@@ -3,7 +3,7 @@
 
 [프론트엔드 개발 리포지토리](https://github.com/Si-1-Han/2024Scheduler)
 
-ERD : [userLogin](https://www.erdcloud.com/d/hTxXfn7FMf6uQbDnQ)
+ERD : [userLogin](https://www.erdcloud.com/d/5oupWDjYSGEXiNwdE)
 
 ---
 
