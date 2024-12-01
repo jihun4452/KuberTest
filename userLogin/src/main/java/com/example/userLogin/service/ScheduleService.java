@@ -22,4 +22,9 @@ public class ScheduleService {
     public List<ScheduleEntity> findAll() {
         return scheduleRepository.findAll();
     }
+
+    public ScheduleEntity findById(Long id) {
+        return scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found : " + id));
+    }
 }

@@ -7,10 +7,7 @@ import com.example.userLogin.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +38,14 @@ public class ScheduleApiController {
         return ResponseEntity.ok()
                 .body(schedule);
 
+    }
+
+    @GetMapping("/api/schedule/{id}")
+
+    public ResponseEntity<ScheduleResponseDto> findSchedule(@PathVariable Long id) {
+        ScheduleEntity schedule = scheduleService.findById(id);
+
+        return ResponseEntity.ok()
+                .body(new ScheduleResponseDto(schedule));
     }
 }
