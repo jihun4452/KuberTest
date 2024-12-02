@@ -3,7 +3,7 @@ package com.example.userLogin.controller;
 import com.example.userLogin.dto.request.AddScheduleRequestDto;
 import com.example.userLogin.dto.response.ScheduleResponseDto;
 import com.example.userLogin.entity.ScheduleEntity;
-import com.example.userLogin.service.ScheduleService;
+import com.example.userLogin.service.ScheduleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class ScheduleApiController {
 
-    private final ScheduleService scheduleService;
+    private final ScheduleServiceImpl scheduleService;
 
     //HTTP 메서드가 POST일 때 전달받은 URL과 동일하면 메서드로 매핑
     @PostMapping("/api/schedule")

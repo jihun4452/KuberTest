@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class ScheduleService {
+public class ScheduleServiceImpl {
 
     private final ScheduleRepository scheduleRepository;
 
