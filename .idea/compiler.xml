@@ -10,5 +10,10 @@
         <module name="userLogin.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="userLogin" target="17" />
+      <module name="userLogin.main" target="17" />
+      <module name="userLogin.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
