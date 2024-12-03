@@ -1,4 +1,4 @@
-package com.example.userLogin.entity;
+package com.example.userLogin.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,8 @@ public class UserEntity {
     @Column
     private Integer userPhone;
 
-    //lombok 어노테이션으로 getter,setter,생성자,toString 메서드 생략 가능
-    public UserEntity( String studentNumber, String userPassword, String userName, String userEmail, Integer userPhone) {
+    @Builder
+    public User( String studentNumber, String userPassword, String userName, String userEmail, Integer userPhone) {
         this.studentNumber = studentNumber;
         this.userPassword = userPassword;
         this.userName = userName;

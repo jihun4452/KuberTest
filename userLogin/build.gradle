@@ -33,6 +33,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'mysql:mysql-connector-java:8.0.33' // org.mysql.cj.jdbc.Driver 드라이버 종속성 추가
+
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
 }
 
 tasks.named('test') {
