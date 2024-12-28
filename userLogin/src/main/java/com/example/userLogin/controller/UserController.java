@@ -31,6 +31,11 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/user/login")
     public String login(@ModelAttribute UserLoginRequestDto userLoginRequestDto, HttpSession session) {
         UserLoginResponseDto loginResult = userService.login(userLoginRequestDto);
         if(loginResult != null) {
