@@ -6,7 +6,8 @@ import lombok.*;
 @Getter
 @Data
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
+@Builder
 public class UserSignupRequestDto {
     private String studentNumber;
     private String userPassword;

@@ -9,6 +9,7 @@ import com.example.userLogin.kakao.KakaoApi;
 import com.example.userLogin.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("해당 학번은 없습니다."));
     }
 
+    @Override
     public KakaoResponseDto kakaoLogin(String code, HttpServletRequest request, HttpServletResponse response) {
         try {
             String access_token = kakaoApi.getAccessToken(code, request);
@@ -37,6 +39,12 @@ public class UserServiceImpl implements UserService {
             if (email == null ) {
                 throw new RuntimeException("이메일 또는 이름을 가져올 수 없습니다."); //에러 코드가 없어 ㅠㅠ
             }
+
+            UserSignupRequestDto requestDto =UserSignupRequestDto.builder()
+                    .userEmail(email)
+                    .build();
+
+            signUp(requestDto,response);
 
             return KakaoResponseDto.builder()
                     .email(email)
