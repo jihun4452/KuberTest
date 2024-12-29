@@ -1,5 +1,6 @@
 package com.example.userLogin.jwt;
 
+import com.example.userLogin.domain.User;
 import com.example.userLogin.entity.UserEntity;
 import com.example.userLogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       UserEntity user = userRepository.findByUserEmail(username);
+       User user = userRepository.findByUserEmail(username);
        if (user == null) {
            throw new UsernameNotFoundException("User Not Found: " + username);
        }

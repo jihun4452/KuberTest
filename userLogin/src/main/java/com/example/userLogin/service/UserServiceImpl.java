@@ -12,9 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -28,11 +30,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserLoginResponseDto login(UserLoginRequestDto userLoginRequestDto, HttpServletResponse response) {
         try {
-            // studentNumber를 Long으로 변환
-            Long studentNumber = Long.valueOf(userLoginRequestDto.getStudentNumber());
+            // studentNumber를 String으로 받아와서 사용
+            String studentNumber = userLoginRequestDto.getStudentNumber();
 
             // studentNumber로 사용자 조회
-            Optional<User> findByStudentNumber = userRepository.findById(studentNumber);
+            Optional<User> findByStudentNumber = userRepository.findByStudentNumber(studentNumber);
 
             // 사용자 존재 여부 확인
             if (findByStudentNumber.isEmpty()) {
@@ -42,16 +44,21 @@ public class UserServiceImpl implements UserService {
             User user = findByStudentNumber.get();
 
             // 비밀번호 비교
-            if (!user.getUserPassword().equals(userLoginRequestDto.getUserPassword())) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) {
                 throw new RuntimeException("비밀번호가 일치하지 않습니다.");
             }
 
-            // 로그인 성공 시, JWT 토큰 발급
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userLoginRequestDto.getStudentNumber(), userLoginRequestDto.getUserPassword());
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    user.getStudentNumber(),
+                    userLoginRequestDto.getUserPassword(),
+                    Collections.emptyList()
+            );
+
             Authentication authentication = authenticationManager.authenticate(authToken);
+
             JwtToken jwtToken = jwtTokenProvider.issueToken(authentication);
 
-            // 토큰과 사용자 정보 반환
             return UserLoginResponseDto.builder()
                     .studentNumber(user.getStudentNumber())
                     .userName(user.getUserName())
@@ -61,8 +68,11 @@ public class UserServiceImpl implements UserService {
 
         } catch (NumberFormatException e) {
             throw new RuntimeException("학번 형식이 잘못되었습니다.");
+        } catch (Exception e) {
+            throw new RuntimeException("로그인 처리 중 오류가 발생했습니다.");
         }
     }
+
 
     @Override
     public void signUp(UserSignupRequestDto userSignupRequestDto, HttpServletResponse response) {
