@@ -28,10 +28,10 @@ public class User {
     private String userEmail;
 
     @Column
-    private Integer userPhone;
+    private String userPhone;
 
     @Builder
-    public User( String studentNumber, String userPassword, String userName, String userEmail, Integer userPhone) {
+    public User( String studentNumber, String userPassword, String userName, String userEmail, String userPhone) {
         this.studentNumber = studentNumber;
         this.userPassword = userPassword;
         this.userName = userName;

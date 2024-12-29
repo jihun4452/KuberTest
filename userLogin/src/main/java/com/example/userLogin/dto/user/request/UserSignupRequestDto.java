@@ -12,7 +12,7 @@ public class UserSignupRequestDto {
     private String userPassword;
     private String userName;
     private String userEmail;
-    private Integer userPhone;
+    private String userPhone;
 
     public User toEntity(){
         return User.builder()
