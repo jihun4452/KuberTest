@@ -10,5 +10,4 @@ public interface UserService {
     UserLoginResponseDto login(UserLoginRequestDto userLoginRequestDto);
 
     void signUp(UserSignupRequestDto userSignupRequestDto);
-
 }

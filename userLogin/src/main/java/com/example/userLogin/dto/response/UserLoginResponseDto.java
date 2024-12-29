@@ -1,15 +1,13 @@
 package com.example.userLogin.dto.response;
 
-import com.example.userLogin.entity.UserEntity;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class UserLoginResponseDto {
-    private Long studentNumber;
+    private String studentNumber;
     private String userName;
-
-    public UserLoginResponseDto(UserEntity userEntity) {
-        this.studentNumber = Long.valueOf(userEntity.getStudentNumber());
-        this.userName = userEntity.getUserName();
-    }
+    private String accessToken;
+    private String refreshToken;
 }

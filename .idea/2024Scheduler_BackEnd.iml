@@ -25,5 +25,6 @@
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:6.3.4" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-crypto:6.3.4" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:6.3.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:3.3.5" level="project" />
   </component>
 </module>

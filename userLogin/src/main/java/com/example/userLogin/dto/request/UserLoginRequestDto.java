@@ -1,13 +1,12 @@
 package com.example.userLogin.dto.request;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class UserLoginRequestDto {
-    private String studentNumber; //
-    private String userPassword; //
+    private String studentNumber;
+    private String userPassword;
 }
