@@ -1,4 +1,0 @@
-jasypt:
-  encryptor:
-    bean: jasyptStringEncryptor
-    key: ENC(cwUy6IMOU7cvpEeKqDnm7DT0if20R/dV)

@@ -28,7 +28,7 @@ public class JwtTokenProvider {
     private final CustomUserDetailsService customUserDetailsService;
 
     // 원래 Base64로 인코딩 된 문자열 형태의 키
-    @Value("${jwt.secretKey}")
+    @Value("${spring.jwt.secretKey}")
     private String secretkey;
 
     // 디코딩 후, JWT 서명에 실제로 사용되는 키 객체
@@ -36,10 +36,11 @@ public class JwtTokenProvider {
 
     @PostConstruct
     private void initializeKey() {
-        // secretKey 디코딩 => Key 객체 초기화
-        byte[] keyBytes = Decoders.BASE64.decode(secretkey);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+        // secretKey가 Base64로 인코딩된 256비트 이상의 값이어야 합니다.
+        // 만약 secretkey의 길이가 부족하면, 이 방법을 사용하기보다 아래와 같이 Keys.secretKeyFor(SignatureAlgorithm.HS256) 방법을 사용하세요.
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // 자동으로 256비트 길이 키 생성
     }
+
 
     // AT 생성
     public String createAccessToken(String username, String authorities) {
