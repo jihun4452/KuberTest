@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/.idea/2024Scheduler_BackEnd.iml" filepath="$PROJECT_DIR$/.idea/2024Scheduler_BackEnd.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/.idea/2024Scheduler_BackEnd-main.iml" filepath="$PROJECT_DIR$/.idea/2024Scheduler_BackEnd-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/userLogin.iml" filepath="$PROJECT_DIR$/.idea/modules/userLogin.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/userLogin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/userLogin.main.iml" />
->>>>>>> origin/login
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/userLogin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/userLogin.test.iml" />
     </modules>
   </component>
 </project>
-

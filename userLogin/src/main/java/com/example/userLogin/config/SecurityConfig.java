@@ -2,6 +2,7 @@ package com.example.userLogin.config;
 
 import com.example.userLogin.jwt.JwtAuthenticationFilter;
 import com.example.userLogin.jwt.JwtTokenProvider;
+import com.example.userLogin.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/user/join", "/api/user/login").permitAll()
                 .anyRequest().authenticated());
 
+        http.addFilterAt(new LoginFilter(authenticationManager(), jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

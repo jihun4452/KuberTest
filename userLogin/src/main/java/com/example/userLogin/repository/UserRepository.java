@@ -1,8 +1,8 @@
 package com.example.userLogin.repository;
 
-import com.example.userLogin.entity.UserEntity;
 import com.example.userLogin.domain.User;
 
+import com.example.userLogin.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByStudentNumber(String studentNumber);
-    Optional<UserEntity> findById(Long studentNumber);
+    Optional<User> findById(Long studentNumber);
+    UserEntity findByUserEmail(String username);
 }

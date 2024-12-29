@@ -24,7 +24,7 @@ public class ScheduleServiceImpl {
     }
 
     public ScheduleEntity findById(Long id) {
-        return scheduleRepository.findById(id)
+        return (ScheduleEntity) scheduleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found : " + id));
     }
 }

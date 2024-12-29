@@ -6,11 +6,12 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -24,7 +25,7 @@ import static com.example.userLogin.jwt.Constant.*;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-    private final CustomUserDetails customUserDetails;
+    private final CustomUserDetailsService customUserDetailsService;
 
     // 원래 Base64로 인코딩 된 문자열 형태의 키
     @Value("${jwt.secretKey}")
@@ -143,7 +144,9 @@ public class JwtTokenProvider {
         Claims claims = parseClaims(token);
         String username = claims.getSubject();
 
-        Collection<? extends GrantedAuthority> authorities = customUserDetails.getAuthorities();
-        return new UsernamePasswordAuthenticationToken(username, token, authorities);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        return new UsernamePasswordAuthenticationToken(userDetails, token, authorities);
     }
 }

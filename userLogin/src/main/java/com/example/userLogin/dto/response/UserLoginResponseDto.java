@@ -1,10 +1,10 @@
 package com.example.userLogin.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class UserLoginResponseDto {
     private String studentNumber;
     private String userName;

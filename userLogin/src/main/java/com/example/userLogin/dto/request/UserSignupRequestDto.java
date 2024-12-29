@@ -8,10 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UserSignupRequestDto { //회원 정보를 필드로 정의
-    private String studentNumber; //
-    private String userPassword; //
+    private String studentNumber;
+    private String userPassword;
     private String userName;
     private String userEmail;
-    private Integer userPhone;
+    private String userPhone;
 
 }

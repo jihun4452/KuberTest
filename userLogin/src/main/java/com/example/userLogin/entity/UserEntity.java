@@ -30,10 +30,10 @@ public class UserEntity {
     private String userEmail;
 
     @Column
-    private Integer userPhone;
+    private String userPhone;
 
     //lombok 어노테이션으로 getter,setter,생성자,toString 메서드 생략 가능
-    public UserEntity( String studentNumber, String userPassword, String userName, String userEmail, Integer userPhone) {
+    public UserEntity( String studentNumber, String userPassword, String userName, String userEmail, String userPhone) {
         this.studentNumber = studentNumber;
         this.userPassword = userPassword;
         this.userName = userName;
