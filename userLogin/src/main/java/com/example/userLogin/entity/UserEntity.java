@@ -1,5 +1,7 @@
 package com.example.userLogin.entity;
 
+import com.example.userLogin.dto.request.UserLoginRequestDto;
+import com.example.userLogin.dto.request.UserSignupRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,5 +39,22 @@ public class UserEntity {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPhone = userPhone;
+    }
+
+    public static UserEntity toUserLoginEntity(UserLoginRequestDto userLoginRequestDto) {
+        return UserEntity.builder()
+                .studentNumber(userLoginRequestDto.getStudentNumber())
+                .userPassword(userLoginRequestDto.getUserPassword())
+                .build();
+    }
+
+    public static UserEntity toUserSignUpEntity(UserSignupRequestDto userSignupRequestDto) {
+        return UserEntity.builder()
+                .studentNumber(userSignupRequestDto.getStudentNumber())
+                .userPassword(userSignupRequestDto.getUserPassword())
+                .userName(userSignupRequestDto.getUserName())
+                .userEmail(userSignupRequestDto.getUserEmail())
+                .userPhone(userSignupRequestDto.getUserPhone())
+                .build();
     }
 }
