@@ -1,10 +1,12 @@
 package com.example.userLogin.controller;
 
+import com.example.userLogin.dto.kakao.KakaoResponseDto;
 import com.example.userLogin.dto.user.request.UserLoginRequestDto;
 import com.example.userLogin.dto.user.request.UserSignupRequestDto;
 import com.example.userLogin.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
   private final UserServiceImpl userService;
+
+  @Operation(summary = "카카오 로그인API")
+  @GetMapping("/login/kakao")
+  public KakaoResponseDto kakaoLogin(@RequestParam("code") String authorizeCode, HttpServletRequest request, HttpServletResponse response) {
+    return userService.kakaoLogin(authorizeCode, request, response);
+  }
 
   @Operation(summary = "유저 회원가입")
   @PostMapping("/signup")
