@@ -1,53 +1,34 @@
 package com.example.userLogin.controller;
 
-import com.example.userLogin.dto.request.UserLoginRequestDto;
-import com.example.userLogin.dto.request.UserSignupRequestDto;
-import com.example.userLogin.dto.response.UserLoginResponseDto;
-import com.example.userLogin.service.UserService;
-import jakarta.servlet.http.HttpSession;
+import com.example.userLogin.dto.user.request.UserLoginRequestDto;
+import com.example.userLogin.dto.user.request.UserSignupRequestDto;
+import com.example.userLogin.service.UserServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-
+@RequestMapping(value = "/user")
 public class UserController {
 
-    private final UserService userService;
+  private final UserServiceImpl userService;
 
-    @GetMapping("/user/join")
-    public String join() {
-        return "join";
-    }
+  @Operation(summary = "유저 회원가입")
+  @PostMapping("/signup")
+  public ResponseEntity<String> signup(@RequestBody UserSignupRequestDto userSignupRequestDto, HttpServletResponse response) {
+    userService.signUp(userSignupRequestDto,response);
+    return ResponseEntity.ok("Signup Successful");
+  }
 
-    @PostMapping("/user/join")
-    public String save(@ModelAttribute UserSignupRequestDto userSignupRequestDto) {
-        userService.signUp(userSignupRequestDto);
-
-        return "main";
-    }
-
-    @GetMapping("/user/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/user/login")
-    public String login(@ModelAttribute UserLoginRequestDto userLoginRequestDto, HttpSession session) {
-        UserLoginResponseDto loginResult = userService.login(userLoginRequestDto);
-        if(loginResult != null) {
-            session.setAttribute("user", loginResult.getStudentNumber());
-            session.removeAttribute("loginFailed");
-            return "main";
-        } else {
-            session.setAttribute("loginFailed", true);
-            return "login";
-        }
-
-    }
-
+  @Operation(summary = "유저 로그인")
+  @PostMapping("/login")
+  public ResponseEntity<String> login(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletResponse response) {
+    userService.login(userLoginRequestDto,response);
+    return ResponseEntity.ok("Login Successful");
+  }
 
 }

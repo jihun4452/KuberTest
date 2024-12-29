@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -63,10 +62,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-     public void signUp(UserSignupRequestDto userSignupRequestDto)
-    {
+    public void signUp(UserSignupRequestDto userSignupRequestDto) {
+        // 중복 학번 체크
+        if (userRepository.findByStudentNumber(userSignupRequestDto.getStudentNumber()).isPresent()) {
+            throw new RuntimeException("이미 존재하는 학번입니다.");
+        }
+
+        // DTO를 엔티티로 변환하여 저장
         UserEntity userEntity = UserEntity.toUserSignUpEntity(userSignupRequestDto);
         userRepository.save(userEntity);
     }
-
 }
