@@ -1,6 +1,5 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/back403
     username: root
     password:
@@ -32,19 +31,19 @@ spring:
   h2:
     console:
       enabled: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
-    defer-datasource-initialization: true
-    open-in-view: true
     show-sql: true
-    generate-ddl: true
-  sql:
-    init:
-      mode: always
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
+    properties:
+      hibernate.format_sql: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  jwt:
+#    secretKey: ENC(5GdDo4cAmFZ2JtFDdvMEKkcUkdtD6EXN)
+    secretKey: SchedulerBackEnd
+    token:
+      access-expiration-time: 1800000
+      refresh-expiration-time: 86400000

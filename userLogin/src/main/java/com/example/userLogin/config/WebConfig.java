@@ -25,9 +25,18 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOriginPatterns("http://localhost:8080", "https://localhost:3000")  // 패턴 기반 설정으로 여러 출처 허용
-                .allowedHeaders("*")
-                .allowedMethods("*")
-                .allowCredentials(true)
-                .exposedHeaders("authorization", "refreshToken", "Set-Cookie");
+        public RestTemplate restTemplate () {
+            return new RestTemplate();
+        }
+
+        @Override
+        public void addCorsMappings ( final CorsRegistry registry){
+            registry.addMapping("/**")
+                    .allowedOriginPatterns("http://localhost:8080", "https://localhost:3000")
+                    .allowedHeaders("*")
+                    .allowedMethods("*")
+                    .allowCredentials(true)
+                    .exposedHeaders("authorization", "refreshToken", "Set-Cookie");
+        }
     }
 }
