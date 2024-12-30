@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,26 +37,37 @@ public class UserServiceImpl implements UserService {
 
             String email = userInfo.get("email");
 
-            if (email == null ) {
-                throw new RuntimeException("이메일 또는 이름을 가져올 수 없습니다."); //에러 코드가 없어 ㅠㅠ
+            if (email == null) {
+                throw new RuntimeException("이메일을 가져올 수 없습니다.");
             }
 
-            UserSignupRequestDto requestDto =UserSignupRequestDto.builder()
+            // userEmail로 사용자 조회
+            Optional<User> existingUser = userRepository.findByUserEmail(email);
+            if (existingUser.isPresent()) {
+                return KakaoResponseDto.builder()
+                        .email(email)
+                        .responseCode("카카오 로그인 성공! 이미 회원입니다.")
+                        .build();
+            }
+
+            UserSignupRequestDto requestDto = UserSignupRequestDto.builder()
                     .userEmail(email)
                     .build();
 
-            signUp(requestDto,response);
+            signUp(requestDto, response);
 
             return KakaoResponseDto.builder()
                     .email(email)
-                    .responseCode("카카오 로그인 성공~!")
+                    .responseCode("카카오 로그인 성공! 회원가입 완료.")
                     .build();
         } catch (Exception e) {
             return KakaoResponseDto.builder()
                     .responseCode("카카오 로그인 실패: " + e.getMessage())
                     .build();
         }
-    } //일단 유효성 검사는 개나 줘버린 코드..
+    }
+
+    //일단 유효성 검사는 개나 줘버린 코드..
 
 
     @Override
