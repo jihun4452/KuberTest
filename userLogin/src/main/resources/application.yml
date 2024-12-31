@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/back403
+    url: jdbc:mysql://localhost:3306/SCHEDULER
     username: root
-    password:
+    password: dahye9011
 
   profiles:
     active: local

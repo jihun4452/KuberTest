@@ -1,8 +1,9 @@
 package com.example.userLogin.controller;
 
 import com.example.userLogin.dto.kakao.KakaoResponseDto;
-import com.example.userLogin.dto.user.request.UserLoginRequestDto;
-import com.example.userLogin.dto.user.request.UserSignupRequestDto;
+import com.example.userLogin.dto.request.UserLoginRequestDto;
+import com.example.userLogin.dto.request.UserSignupRequestDto;
+import com.example.userLogin.dto.response.UserLoginResponseDto;
 import com.example.userLogin.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,8 +36,12 @@ public class UserController {
   @Operation(summary = "유저 로그인")
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletResponse response) {
-    userService.login(userLoginRequestDto,response);
-    return ResponseEntity.ok("Login Successful");
+    UserLoginResponseDto userLoginResponseDto = userService.login(userLoginRequestDto,response);
+
+    return ResponseEntity.ok()
+            .header("Authorization", "Bearer " + userLoginResponseDto.getAccessToken())
+            .header("RefreshToken", userLoginResponseDto.getRefreshToken())
+            .body("Login Successful");
   }
 
 }
