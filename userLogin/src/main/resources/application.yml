@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/SCHEDULER
     username: root
-    password: dahye9011
+    password:
 
   profiles:
     active: local
