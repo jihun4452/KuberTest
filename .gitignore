@@ -1,0 +1,4 @@
+# Ignore application configuration files
+application.yml
+application-key.yml
+
