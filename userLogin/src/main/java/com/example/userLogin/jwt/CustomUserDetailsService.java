@@ -1,7 +1,6 @@
 package com.example.userLogin.jwt;
 
 import com.example.userLogin.domain.User;
-import com.example.userLogin.entity.UserEntity;
 import com.example.userLogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
