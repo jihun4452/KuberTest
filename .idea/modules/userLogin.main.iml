@@ -21,7 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../userLogin/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../userLogin/src/main/resources" type="java-resource" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="corretto-17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.projectlombok:lombok:1.18.34" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.3.5" level="project" />

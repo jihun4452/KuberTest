@@ -2,9 +2,9 @@ package com.example.userLogin.service;
 
 import com.example.userLogin.domain.User;
 import com.example.userLogin.dto.kakao.KakaoResponseDto;
-import com.example.userLogin.dto.user.request.UserLoginRequestDto;
-import com.example.userLogin.dto.user.request.UserSignupRequestDto;
-import com.example.userLogin.dto.user.response.UserLoginResponseDto;
+import com.example.userLogin.dto.request.UserLoginRequestDto;
+import com.example.userLogin.dto.request.UserSignupRequestDto;
+import com.example.userLogin.dto.response.UserLoginResponseDto;
 import com.example.userLogin.kakao.KakaoApi;
 import com.example.userLogin.jwt.JwtToken;
 import com.example.userLogin.jwt.JwtTokenProvider;
@@ -97,18 +97,11 @@ public class UserServiceImpl implements UserService {
             User user = findByStudentNumber.get();
 
             // 비밀번호 비교
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) {
                 throw new RuntimeException("비밀번호가 일치하지 않습니다.");
             }
 
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    user.getStudentNumber(),
-                    userLoginRequestDto.getUserPassword(),
-                    Collections.emptyList()
-            );
-
-            Authentication authentication = authenticationManager.authenticate(authToken);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getUserPassword());
 
             JwtToken jwtToken = jwtTokenProvider.issueToken(authentication);
 
@@ -122,6 +115,7 @@ public class UserServiceImpl implements UserService {
         } catch (NumberFormatException e) {
             throw new RuntimeException("학번 형식이 잘못되었습니다.");
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("로그인 처리 중 오류가 발생했습니다.");
         }
     }

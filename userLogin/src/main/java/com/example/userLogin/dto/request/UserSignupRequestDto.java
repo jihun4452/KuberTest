@@ -5,8 +5,8 @@ import lombok.*;
 //lombok dependency추가
 @Getter
 @Data
-@NoArgsConstructor
 @ToString
+@Builder
 public class UserSignupRequestDto { //회원 정보를 필드로 정의
     private String studentNumber;
     private String userPassword;

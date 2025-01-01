@@ -1,6 +1,8 @@
 package com.example.userLogin.config;
 
+import com.example.userLogin.jwt.JwtAuthenticationFilter;
 import com.example.userLogin.jwt.JwtTokenProvider;
+import com.example.userLogin.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +17,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -38,7 +43,11 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        DelegatingPasswordEncoder delegatingPasswordEncoder  =
+                (DelegatingPasswordEncoder) PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(new BCryptPasswordEncoder());
+
+        return delegatingPasswordEncoder;
     }
 
     private final AuthenticationConfiguration authenticationConfiguration;
@@ -61,6 +70,13 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public LoginFilter loginFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+        LoginFilter loginFilter = new LoginFilter(authenticationManager, jwtTokenProvider);
+        loginFilter.setFilterProcessesUrl("/login");
+        return loginFilter;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
@@ -76,6 +92,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui/index.html").permitAll()
                 .anyRequest().permitAll() // 모든 요청에 대해 접근 허용
         );
+
+        http.addFilterAt(new LoginFilter(authenticationManager(), jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         http.sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

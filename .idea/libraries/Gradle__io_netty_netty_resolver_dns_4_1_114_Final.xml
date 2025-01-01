@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: io.netty:netty-resolver-dns:4.1.114.Final" type="java-imported" external-system-id="GRADLE">
-    <properties groupId="io.netty" artifactId="netty-resolver-dns" version="4.1.114.Final" />
+    <properties groupId="io.netty" artifactId="netty-resolver-dns" version="4.1.114.Final" baseVersion="4.1.114.Final" />
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver-dns/4.1.114.Final/2fed36ff50059ded641fa5064963c4b4313512f3/netty-resolver-dns-4.1.114.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver-dns/4.1.114.Final/2fed36ff50059ded641fa5064963c4b4313512f3/netty-resolver-dns-4.1.114.Final.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

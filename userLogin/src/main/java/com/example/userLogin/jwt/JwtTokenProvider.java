@@ -1,7 +1,6 @@
 package com.example.userLogin.jwt;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -142,10 +140,15 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = parseClaims(token);
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
         String username = claims.getSubject();
 
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+        CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(username);
 
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         return new UsernamePasswordAuthenticationToken(userDetails, token, authorities);
