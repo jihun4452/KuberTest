@@ -1,10 +1,7 @@
 package com.example.userLogin.entity;
 import com.example.userLogin.dto.request.ScheduleRequestDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,11 +10,13 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column
     private Long id;
 
     @Column(name = "startDate", nullable = false)    // 시작 날짜
@@ -38,11 +37,11 @@ public class ScheduleEntity {
     @Column(name = "endTime", nullable = false)
     private LocalTime endTime;
 
-    @OneToMany(mappedBy = "schedule" ,cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comment = new ArrayList<>();
+    @OneToMany(mappedBy = "scheduleEntity" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userEntity_id", nullable = false)
     private UserEntity userEntity;
 
     @Builder

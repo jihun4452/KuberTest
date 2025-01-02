@@ -62,4 +62,15 @@ public class SwaggerConfig {
             .addOpenApiCustomizer(createOpenApiCustomizer("일정 API", "v0.4"))
             .build();
     }
+
+    @Bean
+    public GroupedOpenApi CommentApi() {
+        return GroupedOpenApi.builder()
+            .group("comment")
+            .pathsToMatch("/comment/**")
+            .displayName("comment's API")
+            .addOpenApiCustomizer(createOpenApiCustomizer("댓글 API", "v0.4"))
+            .build();
+    }
+
 }

@@ -3,11 +3,9 @@ package com.example.userLogin.controller;
 import com.example.userLogin.dto.request.ScheduleRequestDto;
 import com.example.userLogin.dto.response.MainScheduleResponseDto;
 import com.example.userLogin.dto.response.ScheduleResponseDto;
-import com.example.userLogin.entity.ScheduleEntity;
-import com.example.userLogin.service.ScheduleServiceImpl;
+import com.example.userLogin.service.ScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +18,7 @@ import java.util.Map;
 @RequestMapping(value = "/schedule")
 public class ScheduleApiController {
 
-    private final ScheduleServiceImpl scheduleService;
+    private final ScheduleService scheduleService;
 
     @Operation(summary = "일정 생성")
     @PostMapping("/create")

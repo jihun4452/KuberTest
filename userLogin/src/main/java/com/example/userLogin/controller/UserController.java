@@ -4,7 +4,7 @@ import com.example.userLogin.dto.kakao.KakaoResponseDto;
 import com.example.userLogin.dto.request.UserLoginRequestDto;
 import com.example.userLogin.dto.request.UserSignupRequestDto;
 import com.example.userLogin.dto.response.UserLoginResponseDto;
-import com.example.userLogin.service.UserServiceImpl;
+import com.example.userLogin.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/user")
 public class UserController {
 
-  private final UserServiceImpl userService;
+  private final UserService userService;
 
   @Operation(summary = "카카오 로그인API")
   @GetMapping("/login/kakao")

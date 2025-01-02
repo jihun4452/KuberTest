@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface CommentService {
   // 댓글 생성
-  void createComment(Long review_id, CommentRequestDto commentRequestDto);
+  void createComment(Long schedule_id, CommentRequestDto commentRequestDto);
   // 대댓글 생성
-  void createReply(Long reviewId, Long comment_id, CommentRequestDto commentRequestDto);
+  void createReply(Long schedule_id, Long comment_id, CommentRequestDto commentRequestDto);
   // 댓글 조회
-  List<CommentResponseDto> getComments(Long review_id);
+  List<CommentResponseDto> getComments(Long schedule_id);
   // 대댓글 조회
   List<CommentResponseDto> getReplies(Long comment_id);
   // 댓글 수정
