@@ -36,11 +36,11 @@ public class UserEntity {
     @Column
     private String userPhone;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ScheduleEntity> schedules = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ScheduleEntity> schedules = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Comment> comments = new ArrayList<>();
 
     //lombok 어노테이션으로 getter,setter,생성자,toString 메서드 생략 가능
     public UserEntity( String studentNumber, String userPassword, String userName, String userEmail, String userPhone) {

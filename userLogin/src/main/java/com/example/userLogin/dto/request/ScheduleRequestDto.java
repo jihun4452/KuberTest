@@ -37,7 +37,7 @@ public class ScheduleRequestDto {
     public ScheduleEntity toEntity() {
         return ScheduleEntity.builder()
             .title(title)
-            .content(contents)
+            .contents(contents)
             .startDate(startDate)
             .endDate(endDate)
             .startTime(startTime)

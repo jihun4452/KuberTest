@@ -39,10 +39,10 @@ public class ScheduleEntity {
 
     @OneToMany(mappedBy = "scheduleEntity" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userEntity_id", nullable = false)
-    private UserEntity userEntity;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "userEntity_id", nullable = false)
+//    private UserEntity userEntity;
 
     @Builder
     public ScheduleEntity(LocalDate startDate, LocalDate endDate, String title, String content, LocalTime startTime, LocalTime endTime) {
