@@ -1,6 +1,5 @@
 package com.example.userLogin.jwt;
 
-import com.example.userLogin.domain.User;
 import com.example.userLogin.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
-    private final User user;
+    private final UserEntity user;
 
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

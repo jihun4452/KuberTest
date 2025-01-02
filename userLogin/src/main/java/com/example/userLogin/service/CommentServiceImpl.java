@@ -1,4 +1,4 @@
 package com.example.userLogin.service;
 
-public interface SchduleService {
+public class CommentServiceImpl {
 }

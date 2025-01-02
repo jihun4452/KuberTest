@@ -10,6 +10,14 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping />
+        <naming-strategy-map />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../userLogin/build/classes/java/main" />
@@ -21,7 +29,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../userLogin/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../userLogin/src/main/resources" type="java-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="corretto-17" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.projectlombok:lombok:1.18.34" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.3.5" level="project" />

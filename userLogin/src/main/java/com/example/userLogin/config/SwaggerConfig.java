@@ -52,4 +52,14 @@ public class SwaggerConfig {
                 .addOpenApiCustomizer(createOpenApiCustomizer("유저 관련 API", "v0.4"))
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi ScheduleApi() {
+        return GroupedOpenApi.builder()
+            .group("schedule")
+            .pathsToMatch("/schedule/**")
+            .displayName("schedule's API")
+            .addOpenApiCustomizer(createOpenApiCustomizer("일정 API", "v0.4"))
+            .build();
+    }
 }

@@ -1,17 +1,21 @@
 package com.example.userLogin.dto.response;
 
-import com.example.userLogin.entity.ScheduleEntity;
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScheduleResponseDto {
-
-    private final String Title;
-    private final String Contents;
-
-    public ScheduleResponseDto(ScheduleEntity scheduleEntity) {
-        this.Title = scheduleEntity.getTitle();
-        this.Contents = scheduleEntity.getContents();
-    }
+    private Long id;
+    private String title;
+    private String contents;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
 }

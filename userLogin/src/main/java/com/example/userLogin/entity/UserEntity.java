@@ -5,6 +5,9 @@ import com.example.userLogin.dto.request.UserSignupRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -31,6 +34,12 @@ public class UserEntity {
 
     @Column
     private String userPhone;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ScheduleEntity> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     //lombok 어노테이션으로 getter,setter,생성자,toString 메서드 생략 가능
     public UserEntity( String studentNumber, String userPassword, String userName, String userEmail, String userPhone) {

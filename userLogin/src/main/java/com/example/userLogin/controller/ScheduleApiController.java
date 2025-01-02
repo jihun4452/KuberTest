@@ -1,51 +1,59 @@
 package com.example.userLogin.controller;
 
-import com.example.userLogin.dto.request.AddScheduleRequestDto;
+import com.example.userLogin.dto.request.ScheduleRequestDto;
+import com.example.userLogin.dto.response.MainScheduleResponseDto;
 import com.example.userLogin.dto.response.ScheduleResponseDto;
 import com.example.userLogin.entity.ScheduleEntity;
 import com.example.userLogin.service.ScheduleServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping(value = "/schedule")
 public class ScheduleApiController {
 
     private final ScheduleServiceImpl scheduleService;
 
-    //HTTP 메서드가 POST일 때 전달받은 URL과 동일하면 메서드로 매핑
-    @PostMapping("/api/schedule")
-    //@RequestBody 로 요청 본문 값 매핑
-    public ResponseEntity<ScheduleEntity> addSchedule(@RequestBody AddScheduleRequestDto request) {
-        ScheduleEntity savedSchedule = scheduleService.save(request);
-
-    //요청한 자원이 성공적으로 생성되었으며 저장된 블로그 글 정보를 응답 객체에 담아 전송
-    return ResponseEntity.status(HttpStatus.CREATED)
-            .body(savedSchedule);
+    @Operation(summary = "일정 생성")
+    @PostMapping("/create")
+    public ResponseEntity<String> createSchedule(@RequestBody ScheduleRequestDto request) {
+        scheduleService.createSchedule(request);
+        return ResponseEntity.ok("일정이 추가되었습니다.");
     }
 
-    @GetMapping("/api/schedule")
-    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule() {
-        List<ScheduleResponseDto> schedule = scheduleService.findAll()
-                .stream()
-                .map(ScheduleResponseDto::new)
-                .toList();
-
-        return ResponseEntity.ok()
-                .body(schedule);
-
+    @Operation(summary = "캘린더 전체 조회(월 단위)")
+    @GetMapping("/{yeqr}/{month}")
+    public ResponseEntity<Map<LocalDate, List<MainScheduleResponseDto>>> findSchedulesForMonth(@PathVariable int yeqr, @PathVariable int month) {
+        return ResponseEntity.ok(scheduleService.getSchedulesForMonth(yeqr, month));
     }
 
-    @GetMapping("/api/schedule/{id}")
-
-    public ResponseEntity<ScheduleResponseDto> findSchedule(@PathVariable Long id) {
-        ScheduleEntity schedule = scheduleService.findById(id);
-
-        return ResponseEntity.ok()
-                .body(new ScheduleResponseDto(schedule));
+    @Operation(summary = "캘린더 일정 조회(일 단위)")
+    @GetMapping("/{date}")
+    public ResponseEntity<List<ScheduleResponseDto>> findSchedule(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(scheduleService.getSchedules(date));
     }
+
+    @Operation(summary = "캘린더 일정 수정")
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto request) {
+        scheduleService.updateSchedule(id, request);
+        return ResponseEntity.ok("수정 완료!");
+    }
+
+    @Operation(summary = "캘린더 일정 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSchedule(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
+        return ResponseEntity.ok("삭제 완료!");
+    }
+
+
 }

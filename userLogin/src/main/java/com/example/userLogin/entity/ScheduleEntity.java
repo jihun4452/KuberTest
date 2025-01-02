@@ -1,9 +1,15 @@
 package com.example.userLogin.entity;
+import com.example.userLogin.dto.request.ScheduleRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,16 +20,48 @@ public class ScheduleEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "Title", nullable = false)
-    private String Title;
+    @Column(name = "startDate", nullable = false)    // 시작 날짜
+    private LocalDate startDate;
 
-    @Column(name = "Contents", nullable = false)
-    private String Contents;
+    @Column(name = "endDate", nullable = false)    // 종료 날짜
+    private LocalDate endDate;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "contents", nullable = false)
+    private String contents;
+
+    @Column(name = "startTime", nullable = false)
+    private LocalTime startTime;
+
+    @Column(name = "endTime", nullable = false)
+    private LocalTime endTime;
+
+    @OneToMany(mappedBy = "schedule" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comment = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity userEntity;
 
     @Builder
-    public ScheduleEntity(String title, String content) {
-        this.Title = title;
-        this.Contents = content;
+    public ScheduleEntity(LocalDate startDate, LocalDate endDate, String title, String content, LocalTime startTime, LocalTime endTime) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.title = title;
+        this.contents = content;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public void updateSchedule(ScheduleRequestDto dto) {
+        this.startDate = dto.getStartDate();
+        this.endDate = dto.getEndDate();
+        this.title = dto.getTitle();
+        this.contents = dto.getContents();
+        this.startTime = dto.getStartTime();
+        this.endTime = dto.getEndTime();
     }
 
 

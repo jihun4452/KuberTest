@@ -13,7 +13,7 @@
     <content url="file://$MODULE_DIR$/../../userLogin/src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../userLogin/src/test/java" isTestSource="true" />
     </content>
-    <orderEntry type="jdk" jdkName="corretto-17" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="userLogin.main" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.3.5" level="project" />

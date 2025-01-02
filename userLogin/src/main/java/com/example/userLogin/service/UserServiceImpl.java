@@ -1,10 +1,10 @@
 package com.example.userLogin.service;
 
-import com.example.userLogin.domain.User;
 import com.example.userLogin.dto.kakao.KakaoResponseDto;
 import com.example.userLogin.dto.request.UserLoginRequestDto;
 import com.example.userLogin.dto.request.UserSignupRequestDto;
 import com.example.userLogin.dto.response.UserLoginResponseDto;
+import com.example.userLogin.entity.UserEntity;
 import com.example.userLogin.kakao.KakaoApi;
 import com.example.userLogin.jwt.JwtToken;
 import com.example.userLogin.jwt.JwtTokenProvider;
@@ -15,12 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
 
     //나중에 에러 코드 추가 지금은 런타임
-    private User findByStudentNumberOrThrow(String studentNumber) {
+    private UserEntity findByStudentNumberOrThrow(String studentNumber) {
         return userRepository.findByStudentNumber(studentNumber)
                 .orElseThrow(() -> new RuntimeException("해당 학번은 없습니다."));
     }
@@ -52,7 +50,7 @@ public class UserServiceImpl implements UserService {
             }
 
             // userEmail로 사용자 조회
-            Optional<User> existingUser = userRepository.findByUserEmail(email);
+            Optional<UserEntity> existingUser = userRepository.findByUserEmail(email);
             if (existingUser.isPresent()) {
                 return KakaoResponseDto.builder()
                         .email(email)
@@ -87,14 +85,14 @@ public class UserServiceImpl implements UserService {
             String studentNumber = userLoginRequestDto.getStudentNumber();
 
             // studentNumber로 사용자 조회
-            Optional<User> findByStudentNumber = userRepository.findByStudentNumber(studentNumber);
+            Optional<UserEntity> findByStudentNumber = userRepository.findByStudentNumber(studentNumber);
 
             // 사용자 존재 여부 확인
             if (findByStudentNumber.isEmpty()) {
                 throw new RuntimeException("사용자를 찾을 수 없습니다.");
             }
 
-            User user = findByStudentNumber.get();
+            UserEntity user = findByStudentNumber.get();
 
             // 비밀번호 비교
             if (!passwordEncoder.matches(userLoginRequestDto.getUserPassword(), user.getUserPassword())) {
@@ -130,7 +128,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // DTO를 엔티티로 변환하여 저장
-        User user = User.builder()
+        UserEntity user = UserEntity.builder()
                 .studentNumber(userSignupRequestDto.getStudentNumber())
                 .userPassword(passwordEncoder.encode(userSignupRequestDto.getUserPassword()))
                 .userName(userSignupRequestDto.getUserName())
@@ -140,5 +138,4 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
-
 }

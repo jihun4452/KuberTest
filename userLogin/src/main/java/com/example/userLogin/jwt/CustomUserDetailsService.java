@@ -1,6 +1,6 @@
 package com.example.userLogin.jwt;
 
-import com.example.userLogin.domain.User;
+import com.example.userLogin.entity.UserEntity;
 import com.example.userLogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +15,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       User user = userRepository.findByUserEmail(username)
+      UserEntity user = userRepository.findByUserEmail(username)
                .orElseThrow(() -> new UsernameNotFoundException("User Not Found: "+ username));
 
         return new CustomUserDetails(user);
