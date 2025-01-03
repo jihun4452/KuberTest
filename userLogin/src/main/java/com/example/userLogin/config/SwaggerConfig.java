@@ -73,4 +73,14 @@ public class SwaggerConfig {
             .build();
     }
 
+    @Bean
+    public GroupedOpenApi AttendanceApi() {
+        return GroupedOpenApi.builder()
+                .group("attendance")
+                .pathsToMatch("/attendance/**")
+                .displayName("attendance's API")
+                .addOpenApiCustomizer(createOpenApiCustomizer("QR Code API", "v0.4"))
+                .build();
+    }
+
 }
