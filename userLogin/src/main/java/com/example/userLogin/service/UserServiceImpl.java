@@ -53,7 +53,9 @@ public class UserServiceImpl implements UserService {
 
             // 사용자 조회
             Optional<UserEntity> existingUser = userRepository.findByUserEmail(email);
+
             if (existingUser.isPresent()) {
+                this.setJwtTokenInHeader(email,response);
                 return KakaoResponseDto.builder()
                         .email(email)
                         .responseCode("카카오 로그인 성공! 이미 회원입니다.")
@@ -174,5 +176,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void setJwtTokenInHeader(String email, HttpServletResponse response) {
+        Optional<UserEntity> user = userRepository.findByUserEmail(email);
 
+        if (user.isEmpty()) {
+            throw new RuntimeException("NOT FOUND USER");
+        }
+
+        // 기본 권한 설정
+        String defaultAuthorities = "USER";
+
+        // AccessToken 생성
+        String accessToken = jwtTokenProvider.createAccessToken(email, defaultAuthorities);
+
+        // 헤더에 토큰 설정
+        response.setHeader("Authorization", "Bearer " + accessToken);
+    }
 }
