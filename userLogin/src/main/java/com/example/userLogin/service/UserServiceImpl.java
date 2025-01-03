@@ -40,16 +40,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public KakaoResponseDto kakaoLogin(String code, HttpServletRequest request, HttpServletResponse response) {
         try {
-            String access_token = kakaoApi.getAccessToken(code, request);
-            Map<String, String> userInfo = kakaoApi.getUserInfo(access_token);
+            // Access Token 가져오기
+            String accessToken = kakaoApi.getAccessToken(code, request);
+            Map<String, String> userInfo = kakaoApi.getUserInfo(accessToken);
 
             String email = userInfo.get("email");
 
-            if (email == null) {
-                throw new RuntimeException("이메일을 가져올 수 없습니다.");
+            // 이메일 검증
+            if (email == null || email.isBlank()) {
+                throw new IllegalArgumentException("이메일을 가져올 수 없습니다.");
             }
 
-            // userEmail로 사용자 조회
+            // 사용자 조회
             Optional<UserEntity> existingUser = userRepository.findByUserEmail(email);
             if (existingUser.isPresent()) {
                 return KakaoResponseDto.builder()
@@ -58,22 +60,28 @@ public class UserServiceImpl implements UserService {
                         .build();
             }
 
-            UserSignupRequestDto requestDto = UserSignupRequestDto.builder()
+            // 새로운 사용자 회원가입
+            UserEntity newUser = UserEntity.builder()
                     .userEmail(email)
                     .build();
 
-            signUp(requestDto, response);
+            userRepository.save(newUser);
 
             return KakaoResponseDto.builder()
                     .email(email)
                     .responseCode("카카오 로그인 성공! 회원가입 완료.")
                     .build();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return KakaoResponseDto.builder()
                     .responseCode("카카오 로그인 실패: " + e.getMessage())
                     .build();
+        } catch (Exception e) {
+            return KakaoResponseDto.builder()
+                    .responseCode("카카오 로그인 실패: 알 수 없는 오류 발생")
+                    .build();
         }
     }
+
 
     //일단 유효성 검사는 개나 줘버린 코드..
 
@@ -118,6 +126,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean isEmailDuplicated(String email) {
+        return userRepository.findByUserEmail(email).isPresent();
+    }
+
 
     @Override
     public void signUp(UserSignupRequestDto userSignupRequestDto, HttpServletResponse response) {
@@ -138,4 +151,28 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        try {
+            String authorizationHeader = request.getHeader("Authorization");
+
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                throw new RuntimeException("Authorization 헤더가 유효하지 않습니다.");
+            }
+
+            String accessToken = authorizationHeader.substring(7);
+            if (!jwtTokenProvider.validateToken(accessToken)) {
+                throw new RuntimeException("유효하지 않은 토큰입니다.");
+            }
+
+            System.out.println("사용자가 로그아웃되었습니다. 토큰: " + accessToken);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("로그아웃 처리 중 오류가 발생했습니다.");
+        }
+    }
+
+
 }

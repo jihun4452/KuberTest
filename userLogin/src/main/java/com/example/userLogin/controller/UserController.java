@@ -44,4 +44,19 @@ public class UserController {
             .body("Login Successful");
   }
 
+  @Operation(summary = "유저 로그아웃")
+  @PostMapping("/logout")
+  public ResponseEntity<String> logout(HttpServletRequest request) {
+    userService.logout(request);
+    return ResponseEntity.ok("로그아웃 되었습니다.");
+  }
+
+
+  @Operation(summary = "이메일 중복 확인")
+  @GetMapping("/Duplicated")
+  public ResponseEntity<?> isEmailDuplicated(@RequestParam String email) {
+    boolean isEmailDuplicated = userService.isEmailDuplicated(email);
+    return ResponseEntity.ok("이메일 중복 여부 : " + isEmailDuplicated);
+  }
+
 }
